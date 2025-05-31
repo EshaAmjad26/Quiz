@@ -8,6 +8,16 @@ import google.generativeai as genai
 from colorama import Fore, Style
 from dotenv import load_dotenv
 
+from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import List
+
+app = FastAPI()
+
+class QuizRequest(BaseModel):
+    topic: str
+    question_number: int
+    level: str
 
 class QuizAgent:
     def __init__(self):
@@ -73,11 +83,11 @@ class QuizAgent:
              """
             
         }
-
+    @app.post("/generate-quiz")
     def generate_quiz(self, topic: str, level: str, num_questions: int) -> List[Dict]:
         """Generate quiz questions using Gemini API."""
         prompt = self.quiz_prompts[level].format(topic=topic, level=level, num_questions=num_questions)
-        response = self.model.generate_content(prompt)
+        response = self.model.generate_content(prompt)                                #80                  
 
         if not response.text:
             raise Exception("Failed to generate quiz questions.")
@@ -139,7 +149,7 @@ class QuizAgent:
                     {
                         "question": question_text,
                         "code": code_snippet,
-                        "options": options,
+                        "options": options,                          # add options a, b , c , d
                         "correct": correct,
                         "explanation": explanation,
                     }
@@ -171,7 +181,7 @@ class QuizAgent:
         answers = []
         time_per_question = self.time_limits[level.lower()]
 
-        for i, q in enumerate(questions, 1):
+        for i, q in enumerate(questions, 1):                                            #174
             print(Fore.GREEN + f"\nQuestion {i}/{num_questions}:" + Style.RESET_ALL)
             print(q["question"])
 
@@ -247,9 +257,47 @@ class QuizAgent:
             print(f"Correct answer: {ans['correct_answer']}")
             print(f"Explanation: {ans['explanation']}")
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
+#     quiz_agent = QuizAgent()
+#     topic = input("Enter Python topic for quiz: ")
+#     level = input("Enter difficulty level: ").lower()
+#     num_questions = int(input("Enter number of questions: "))
+#     quiz_agent.run_quiz(topic, level, num_questions)
+
+
+#     }
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+
+app = FastAPI()
+
+# Allow your frontend origin (adjust if needed)
+origins = [
+    "http://127.0.0.1:5500",
+    # You can add "http://localhost:5500" if you open it that way, or "*" to allow all
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # or use ["*"] to allow all origins (less secure)
+    allow_credentials=True,
+    allow_methods=["*"],  # allow all HTTP methods (GET, POST, OPTIONS, etc.)
+    allow_headers=["*"],  # allow all headers
+)
+
+class QuizRequest(BaseModel):
+    topic: str
+    question_number: int
+    level: str
+
+@app.post("/generate-quiz")
+def generate_quiz(data: QuizRequest):
     quiz_agent = QuizAgent()
-    topic = input("Enter Python topic for quiz: ")
-    level = input("Enter difficulty level: ").lower()
-    num_questions = int(input("Enter number of questions: "))
-    quiz_agent.run_quiz(topic, level, num_questions)
+    quiz_agent.run_quiz(data.topic, data.level, data.question_number)
+    # return {
+    #     "topic": data.topic,
+    #     "number_of_questions": data.question_number,
+    #     "level": data.level,
+    #     "questions": [f"Sample question {i+1}" for i in range(data.question_number)]
+    # }

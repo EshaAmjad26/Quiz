@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Python Quiz Generator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="quiz-box">
+        <h1>Python Programming Quiz</h1>
+        <p>Test your Python knowledge with AI-generated questions</p>
+
+        <label for="topic">Python Topic</label>
+        <select id="topic">
+          <option>Python Basics</option>
+          <option>Variable and Data Types</option>
+          <option>Introducing Lists</option>
+          <option>Working with Lists</option>
+          <option>if statements</option>
+          <option>Dictionaries</option>
+          <option>User Input and while loops</option>
+          <option>Functions</option>
+          <option>Classes and Objects</option>
+          <option>File and Exception</option>
+        </select>
+
+        <label for="num-questions">Number of Questions</label>
+        <select id="num-questions">
+          <option>10 Questions</option>
+          <option>20 Questions</option>
+          <option>30 Questions</option>
+          <option>40 Questions</option>
+          <option>50 Questions</option>
+        </select>
+
+        <label>Difficulty Level</label>
+        <div class="difficulty-options" id="level">
+          <button class="difficulty-btn" data-level="Beginner">Beginner</button>
+          <button class="difficulty-btn" data-level="Intermediate">
+            Intermediate
+          </button>
+          <button class="difficulty-btn" data-level="Advanced">Advanced</button>
+        </div>
+
+        <button id="generate-btn">Generate Python Quiz</button>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

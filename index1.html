@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="style1.css" />
+  </head>
+  <body>
+    <div class="quiz-container">
+      <div class="quiz-header">
+        <div class="question-count">
+          Question <span id="question-number">1</span>/10
+        </div>
+        <div class="timer"><span id="timer">45</span></div>
+      </div>
+
+      <h3 class="topic">Topic: <span id="quiz-topic">Python Basics</span></h3>
+
+      <div class="progress-bar">
+        <div id="progress" class="progress-fill"></div>
+      </div>
+
+      <div class="question-text" id="question-text">
+        What is the correct way to check if two variables have the same value in
+        Python?
+      </div>
+
+      <div class="options" id="options-container">
+        <button class="option"><span>A</span> a = b</button>
+        <button class="option"><span>B</span> a == b</button>
+        <button class="option"><span>C</span> a === b</button>
+        <button class="option"><span>D</span> a.equals(b)</button>
+      </div>
+
+      <div class="navigation-buttons">
+        <button id="prev-btn" class="nav-btn">Previous</button>
+        <button id="next-btn" class="nav-btn">Next</button>
+      </div>
+    </div>
+    <div class="timer-circle">
+      <svg>
+        <circle cx="24" cy="24" r="22"></circle>
+        <circle id="progress-ring" cx="24" cy="24" r="22"></circle>
+      </svg>
+      <div id="timer">45</div>
+    </div>
+
+    <script src="app1.js"></script>
+  </body>
+</html>
